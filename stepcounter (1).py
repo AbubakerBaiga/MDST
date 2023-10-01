@@ -25,29 +25,26 @@ def visualize_data(timestamps, x_arr,y_arr,z_arr,s_arr):
 
 #Function to read the data from the log file
 #TODO Read the measurements into array variables and return them
-def read_data(filename):
-  #TODO implementation
-  csv_array = np.genfromtxt(filename, delimiter=',')
-  # Assuming the first row contains headers, you can extract them
-  headers = csv_array[0, :]
-  # Create an empty dictionary to store arrays for each column
-  column_arrays = {}
-  # Iterate over each column and store it in the dictionary
-  for i, header in enumerate(headers):
-    column_arrays[header] = csv_array[1:, i]
-  # Now 'column_arrays' is a dictionary where keys are column names and values are arrays
-  # Access individual arrays using column names, for example:
-  timestamps = column_arrays['FirstColumn']
-  x_array = column_arrays['SecondColumn']
-  y_array = column_arrays['ThirdColumn']
-  z_array = column_arrays['FourthColumn']
-  return [timestamps], [x_array], [y_array], [z_array]
-  #return [0],[0],[0],[0]
+def read_data(out):
+    timestamps = []
+    x_array = []
+    y_array = []
+    z_array = []
+    #TODO implementation
+    #CSV file has no headers, we can access columns by index
+    csv_array = np.genfromtxt(out, delimiter=',')
+    timestamps = csv_array[:, 0]
+    x_array = csv_array[:, 1]
+    y_array = csv_array[:, 2]
+    z_array = csv_array[:, 3]
+   
+    return timestamps, x_array, y_array, z_array
+    #return [0],[0],[0],[0]
 
 #Function to count steps.
 #Should return an array of timestamps from when steps were detected
 #Each value in this arrray should represent the time that step was made.
-def count_steps(timestamps, x_arr, y_arr, z_arr, threshold=20):
+def count_steps(timestamps, x_arr, y_arr, z_arr, threshold=16.9):
     step_counts = []
     for i in range(1, len(timestamps) - 1):
         # Calculate the magnitude of acceleration at each timestamp
